@@ -1,0 +1,134 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class Personne {
+  +id : int
+  +nom : str
+  +prenom : str
+  +email : str
+  +telephone : str
+  +nom_complet() : str
+  {abstract} +role() : str
+}
+class Proprietaire {
+  +biens : list
+  +ajouter_bien(bien)
+  +revenus_potentiels() : float
+}
+class Locataire {
+  +profession : str
+  +contrats : list
+  +contrats_actifs() : list
+}
+class Technicien {
+  +specialite : str
+  +interventions : list
+  +charge_de_travail() : int
+}
+
+abstract class Bien {
+  +id : int
+  +adresse : str
+  +ville : str
+  +surface : float
+  +loyer_base : float
+  +statut : StatutBien
+  {abstract} +type_bien() : str
+  +est_disponible() : bool
+  +changer_statut(statut)
+  +cout_maintenance_total() : float
+  +loyer_au_m2() : float
+}
+class Appartement {
+  +etage : int
+  +ascenseur : bool
+}
+class Maison {
+  +surface_jardin : float
+  +garage : bool
+}
+class LocalCommercial {
+  +activite : str
+}
+
+class Contrat {
+  +id : int
+  +date_debut : date
+  +date_fin : date
+  +loyer_mensuel : float
+  +depot_garantie : float
+  +statut : StatutContrat
+  +est_actif() : bool
+  +jours_restants() : int
+  +generer_echeancier() : list
+  +reviser_loyer(taux) : float
+  +loyers_impayes() : list
+  +resilier()
+  +terminer()
+}
+class Loyer {
+  +id : int
+  +mois : date
+  +montant : float
+  +date_echeance : date
+  +statut : StatutLoyer
+  +enregistrer_paiement(montant, date, mode) : Paiement
+  +mettre_a_jour_statut() : StatutLoyer
+  +penalite() : float
+  +generer_quittance() : Quittance
+}
+class Paiement {
+  +id : int
+  +montant : float
+  +date_paiement : date
+  +mode : ModePaiement
+}
+class Quittance {
+  +id : int
+  +date_emission : date
+  +texte() : str
+}
+class DemandeMaintenance {
+  +id : int
+  +description : str
+  +priorite : Priorite
+  +statut : StatutMaintenance
+  +cout : float
+  +assigner(technicien)
+  +demarrer()
+  +terminer(cout)
+  +annuler()
+}
+class GestionImmobiliere {
+  +nom_agence : str
+  +ajouter_bien(bien, proprietaire)
+  +creer_contrat(...) : Contrat
+  +signaler_panne(...) : DemandeMaintenance
+  +taux_occupation() : float
+  +loyers_impayes() : list
+  +contrats_a_echeance(jours) : list
+  +tableau_de_bord() : dict
+}
+
+Personne <|-- Proprietaire
+Personne <|-- Locataire
+Personne <|-- Technicien
+Bien <|-- Appartement
+Bien <|-- Maison
+Bien <|-- LocalCommercial
+
+Proprietaire "1" --> "0..*" Bien : possède
+Locataire "1" --> "0..*" Contrat : signe
+Bien "1" --> "0..*" Contrat : objet de
+Contrat "1" *-- "1..*" Loyer : échéancier
+Loyer "1" *-- "0..*" Paiement : réglé par
+Loyer "1" --> "0..1" Quittance : génère
+Bien "1" --> "0..*" DemandeMaintenance : concerne
+Technicien "0..1" --> "0..*" DemandeMaintenance : intervient
+GestionImmobiliere o-- Bien
+GestionImmobiliere o-- Contrat
+GestionImmobiliere o-- Proprietaire
+GestionImmobiliere o-- Locataire
+GestionImmobiliere o-- Technicien
+GestionImmobiliere o-- DemandeMaintenance
+@enduml

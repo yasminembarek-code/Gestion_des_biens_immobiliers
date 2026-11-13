@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+actor "Gestionnaire / Agence" as GES
+actor "Propriétaire" as PRO
+actor "Locataire" as LOC
+actor "Technicien" as TEC
+
+rectangle "Système de gestion des biens immobiliers" {
+  usecase "Gérer les biens" as UC1
+  usecase "Gérer propriétaires et locataires" as UC2
+  usecase "Créer / résilier un contrat" as UC3
+  usecase "Générer l'échéancier des loyers" as UC4
+  usecase "Enregistrer un paiement" as UC5
+  usecase "Émettre une quittance" as UC6
+  usecase "Relancer les impayés" as UC7
+  usecase "Signaler une panne" as UC8
+  usecase "Traiter une demande de maintenance" as UC9
+  usecase "Consulter le tableau de bord" as UC10
+  usecase "Consulter ses biens et revenus" as UC11
+  usecase "Consulter ses loyers et quittances" as UC12
+}
+
+GES --> UC1
+GES --> UC2
+GES --> UC3
+GES --> UC5
+GES --> UC7
+GES --> UC9
+GES --> UC10
+PRO --> UC10
+PRO --> UC11
+LOC --> UC8
+LOC --> UC12
+TEC --> UC9
+UC3 .> UC4 : <<include>>
+UC6 .> UC5 : <<extend>>
+@enduml
