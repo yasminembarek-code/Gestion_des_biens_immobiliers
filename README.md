@@ -1,6 +1,6 @@
-# Gestion des biens immobiliers (POO – Python)
+# Gestion des biens immobiliers (POO – C#)
 
-Mini-projet de conception et programmation orientée objet : suivi des locations, contrats, loyers et maintenance.
+Mini-projet de conception et programmation orientée objet en C# (.NET 8) : suivi des locations, contrats, loyers et maintenance.
 
 ## 1. Diagramme de cas d'utilisation général
 
@@ -184,21 +184,23 @@ Les mêmes diagrammes sont fournis en PlantUML : `diagramme_classes.puml` et `ca
 
 | Fichier | Contenu |
 |---|---|
-| `enums.py` | Statuts, priorités, modes de paiement |
-| `personnes.py` | `Personne` (abstraite), `Proprietaire`, `Locataire`, `Technicien` |
-| `biens.py` | `Bien` (abstraite), `Appartement`, `Maison`, `LocalCommercial` |
-| `contrat.py` | `Contrat` (échéancier, révision, résiliation) |
-| `finances.py` | `Loyer`, `Paiement`, `Quittance` |
-| `maintenance.py` | `DemandeMaintenance` |
-| `gestion.py` | `GestionImmobiliere` (façade + statistiques) |
-| `main.py` | Démonstration |
-| `test_immobilier.py` | Tests unitaires |
+| `Enums.cs` | Statuts, priorités, modes de paiement |
+| `Personnes.cs` | `Personne` (abstraite), `Proprietaire`, `Locataire`, `Technicien` |
+| `Biens.cs` | `Bien` (abstraite), `Appartement`, `Maison`, `LocalCommercial` |
+| `Contrat.cs` | `Contrat` (échéancier, révision, résiliation) |
+| `Finances.cs` | `Loyer`, `Paiement`, `Quittance` |
+| `DemandeMaintenance.cs` | `DemandeMaintenance` |
+| `GestionImmobiliere.cs` | `GestionImmobiliere` (façade + statistiques) |
+| `Program.cs` | Démonstration |
+| `Tests.cs` | Tests unitaires |
 
-Concepts POO utilisés : encapsulation, héritage (`Personne`, `Bien`), classes abstraites, polymorphisme (`role()`, `type_bien()`), composition (`Contrat` → `Loyer` → `Paiement`) et agrégation (`GestionImmobiliere`).
+Concepts POO utilisés : encapsulation (propriétés, `private set`), héritage (`Personne`, `Bien`), classes abstraites (`abstract`), polymorphisme (`Role()`, `TypeBien()`), composition (`Contrat` → `Loyer` → `Paiement`) et agrégation (`GestionImmobiliere`).
 
 ## 4. Exécution
 
+Prérequis : [.NET SDK 8](https://dotnet.microsoft.com/download).
+
 ```bash
-python main.py
-python -m unittest -v
+dotnet run            # démonstration
+dotnet run -- test    # tests unitaires
 ```
